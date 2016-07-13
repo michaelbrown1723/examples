@@ -26,6 +26,7 @@ public class Swiping {
     String incorrectUser = "ab102";
     String incorrectPass = "password10";
 
+    //data() is used to run the test multiple times in a row
     @Parameterized.Parameters
     public static List<Object[]> data() {
 
@@ -36,6 +37,8 @@ public class Swiping {
 
     }
 
+
+    //setup() sets the connection between the program and the Appium server 
     @Before
     public void setUp() throws Exception {
 
@@ -47,13 +50,14 @@ public class Swiping {
 
     }
 
+    //this is where the actual test code is presented
     @Test
     public void theTest() throws Exception {
 
-
-
+        //sometimes it takes a while for a page to load, make sure that the program looks for the element until it appears
         while (true) {
             try {
+                
                 driver.findElementByAndroidUIAutomator("new UiSelector().text(\"SIGN IN\")").click();
                 break;
 
@@ -62,22 +66,25 @@ public class Swiping {
 
         }
 
-
+        //enter username and password into the sign in page
         AndroidElement el = (AndroidElement) driver.findElementsByClassName("android.widget.EditText").get(0);
         el.sendKeys("ab1022");
         AndroidElement el1 = (AndroidElement) driver.findElementsByClassName("android.widget.EditText").get(1);
         el1.sendKeys("password105");
+        
+        //click sign in button
         driver.findElementByAndroidUIAutomator("new UiSelector().text(\"Sign In\")").click();
 
+        //swipe down the home page to view more scans
         for(int k = 1;k <= 150;k++) {
             driver.swipe(400,1000,400,100,200);
             Thread.sleep(1500);
 
         }
 
-
     }
 
+    //what the program does after running the test. We want to quit the driver and restart the program
     @After
     public void terminate() {
 
